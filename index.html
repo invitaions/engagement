@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Angela & Shadi — Engagement Day</title>
+<script>
+  // للتحقق وإخبار المتصفح بعدم تعديل الألوان قسرياً
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+     var meta = document.createElement('meta');
+     meta.name = "color-scheme";
+     meta.content = "dark only"; // يخدع ميزة التعتيم الإجباري لتعتقد أن الموقع متوافق فلا تعكس ألوانه
+     document.getElementsByTagName('head')[0].appendChild(meta);
+  }
+</script>
+<style>
+  :root{
+    color-scheme: light;
+    --cream:#F8F1E6;
+    --ivory:#FFFCF7;
+    --blush:#EAD3C8;
+    --rose-gold:#BD7F5C;
+    --deep:#4B2E2A;
+    --gold:#AD8858;
+    --gold-light:#D9BE93;
+    --line:rgba(173,136,88,0.35);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--cream);
+    color:var(--deep);
+    font-family:'Cormorant Garamond', serif;
+    overflow-x:hidden;
+  }
+
+  /* ---------- fonts ---------- */
+  @font-face {
+  font-family: 'MyCustomFont';
+  src: url('fonts/mycustomfont.woff2') format('woff2');
+  font-display: swap;
+}
+
+
+  .script{ font-family:'Great Vibes', cursive; }
+  .label{
+    font-family:'Cinzel', serif;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    font-size:.8rem;
+    color:var(--gold);
+  }
+
+  section{
+    min-height:100vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:6vh 6vw;
+    text-align:center;
+  }
+
+  /* ================= ENVELOPE INTRO ================= */
+  #envelope-screen{
+    position:fixed; inset:0; z-index:100;
+    background:#EFE3D3;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    cursor:pointer;
+    transition:opacity 1s ease, transform 1s ease, visibility 1s ease;
+  }
+
+  #envelope-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    z-index:0;
+  }
+  #envelope-screen::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(75,46,42,0) 55%, rgba(59,36,32,.55) 100%);
+    pointer-events:none;
+  }
+  #envelope-screen.open{ transform:scale(1.06); opacity:0; }
+  #envelope-screen.hidden{ visibility:hidden; pointer-events:none; }
+
+  .env-hint{
+    position:absolute;
+    top:64%;
+    left:0;
+    z-index:2;
+    width:100%;
+    text-align:center;
+    font-family:'Cinzel', serif;
+    letter-spacing:.28em;
+    font-size:.7rem;
+    text-transform:uppercase;
+    color:#FBF3E6;
+  }
+  .env-hint .pulse{ display:inline-block; animation:pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:.5} 50%{opacity:1} }
+
+  /* ================= MAIN CONTENT ================= */
+  #site{
+    opacity:0;
+    transition:opacity 1.2s ease;
+  }
+  #site.revealed{ opacity:1; }
+
+  .ornament-corner{ position:absolute; width:64px; height:64px; opacity:.85; }
+  .ornament-corner.tl{ top:20px; left:20px; }
+  .ornament-corner.tr{ top:20px; right:20px; transform:scaleX(-1); }
+  .ornament-corner.bl{ bottom:20px; left:20px; transform:scaleY(-1); }
+  .ornament-corner.br{ bottom:20px; right:20px; transform:scale(-1); }
+
+  .fade-up{ opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease; }
+  .fade-up.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ---------- HERO / MAIN INVITE CARD ---------- */
+  #invite{
+    background:
+      linear-gradient(180deg, rgba(59,36,32,0.12) 0%, rgba(43,26,22,0.55) 78%, rgba(35,20,17,0.75) 100%),
+      url('garden-swans.jpg') center/cover no-repeat;
+    color:var(--ivory);
+    padding-top:10vh;
+    padding-bottom:10vh;
+    justify-content:center;
+  }
+  .arch-frame{
+    position:relative;
+    width:100%;
+    max-width:380px;
+    padding:0 10px;
+  }
+  .arch-frame .label{ color:#F6ECDD; }
+  .invite-date{
+    margin-top:10px;
+    font-family:'Cinzel', serif;
+    font-size:1rem;
+    letter-spacing:.22em;
+    color:#F6ECDD;
+  }
+  .invite-names{
+    margin:16px 0 4px;
+    font-size:clamp(2.6rem, 11vw, 3.4rem);
+    line-height:1.05;
+    color:#FFFCF6;
+    text-shadow:0 2px 20px rgba(0,0,0,.45);
+  }
+  .invite-amp{ font-size:2rem; opacity:.9; margin:2px 0; text-shadow:0 2px 14px rgba(0,0,0,.4); }
+  .invite-sub{
+    margin-top:18px;
+    font-size:.95rem;
+    letter-spacing:.08em;
+    color:#F3E5D2;
+    text-shadow:0 1px 10px rgba(0,0,0,.4);
+  }
+
+  /* ---------- BLESSING / CONNECTOR ---------- */
+/* ---------- BLESSING (merged into top of countdown) ---------- */
+.blessing-block{
+  position:relative;
+  padding-top:6vh;
+  margin-bottom:8vh;
+}
+.rose-corner{
+  position:absolute;
+  top:-100px;
+  width:180px;
+  height:auto;
+  z-index:2;
+  opacity:.90;
+  pointer-events:none;
+}
+.rose-corner.left{ left:0; }
+.rose-corner.right{ right:0; transform:scaleX(-1); }
+.blessing-line{
+  font-size:2.4rem;
+  color:var(--rose-gold);
+  margin-bottom:6px;
+  line-height:1.1;
+}
+.blessing-sub{
+  font-family:'Cinzel', serif;
+  letter-spacing:.16em;
+  font-size:.8rem;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:28px;
+}
+.blessing-divider{
+  width:56px; height:1px;
+  background:var(--gold);
+  margin:0 auto 28px;
+  opacity:.6;
+}
+.blessing-text{
+  font-size:1.2rem;
+  line-height:1.85;
+  color:var(--deep);
+  max-width:320px;
+}
+
+  /* ---------- COUNTDOWN ---------- */
+  /*#countdown{
+    background:
+      linear-gradient(rgba(246, 237, 224, .15), rgba(255, 255, 255, )),
+      url('pink.jpg') center/cover no-repeat;
+  }*/
+
+  #countdown{
+    background: var(--cream);
+    padding-top:4vh;
+  }
+  .swans-under-countdown{
+    width:min(70vw, 260px);
+    margin:8px auto 0;
+    display:block;
+    opacity:.92;
+  }
+
+  .countdown-title{
+    font-family:'Cinzel', serif;
+    font-size:1rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--deep);
+    margin-bottom:30px;
+  }
+  .countdown-grid{
+    display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
+  }
+  .cd-box{
+    width:74px; height:80px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, #FFFDF9, #F6ECDF);
+    box-shadow:0 8px 18px -10px rgba(173,136,88,.5);
+  }
+  .cd-num{ font-family:'Cinzel', serif; font-size:1.6rem; color:var(--rose-gold); }
+  .cd-lab{ font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-top:4px; }
+
+  .event-date-line{
+    margin-top:36px; font-family:'Great Vibes', cursive; font-size:1.8rem; color:var(--rose-gold);
+  }
+
+  /* ---------- LOCATION ---------- */
+  #location{
+    background:
+      linear-gradient(180deg, rgba(43,26,22,.35) 0%, rgba(59,36,32,.15) 35%, rgba(43,26,22,.55) 100%),
+      url('beige.jpg') center/cover no-repeat;
+    color:var(--ivory);
+  }
+  #location .label{ color:#F6ECDD; }
+  .venue-name{ font-size:1.9rem; margin:14px 0 4px; font-family:'Cormorant Garamond', serif; font-weight:600; color:#785a3f; text-shadow:0 2px 16px rgba(0,0,0,.4); }
+  .venue-address{ font-size:1.55rem; color:#F3E5D2; max-width:320px; line-height:1.5; margin-bottom:22px; text-shadow:0 1px 10px rgba(0,0,0,.35); }
+
+  .map-frame{
+    width:min(90vw,360px); height:220px;
+    border-radius:14px; overflow:hidden;
+    border:1px solid rgba(255,251,245,.4);
+    box-shadow:0 14px 30px -16px rgba(0,0,0,.5);
+    background:rgba(43,26,22,.45);
+    backdrop-filter:blur(3px);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .map-fallback{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:#F6ECDD; font-family:'Cinzel', serif; font-size:.72rem; letter-spacing:.12em;
+    text-transform:uppercase; padding:0 24px; text-align:center;
+  }
+  .map-fallback svg{ stroke:#F6ECDD !important; }
+
+  .directions-btn{
+    margin-top:22px;
+    display:inline-block;
+    padding:12px 30px;
+    border:1px solid #F6ECDD;
+    border-radius:30px;
+    color:#FFFCF6;
+    background:rgba(43,26,22,.35);
+    backdrop-filter:blur(2px);
+    font-family:'Cinzel', serif;
+    font-size:.72rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:background .3s ease, color .3s ease;
+  }
+  .directions-btn:hover{ background:var(--gold); color:#fff; border-color:var(--gold); }
+
+  /* ---------- GALLERY ---------- */
+  #gallery{ background:var(--ivory); padding-top:8vh; padding-bottom:8vh; }
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+    width:min(92vw, 420px);
+    margin-top:28px;
+  }
+  .gallery-grid .g-item:nth-child(3n){ grid-column:span 2; }
+  .g-item{
+    aspect-ratio:1/1;
+    border-radius:10px;
+    background:linear-gradient(160deg,#F2E4D6,#E3C9AF);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    position:relative;
+  }
+  .gallery-grid .g-item:nth-child(3n){ aspect-ratio:2.06/1; }
+  .g-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .g-placeholder{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    color:#8A6B54; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase;
+    font-family:'Cinzel', serif; text-align:center; padding:10px;
+  }
+  .g-placeholder svg{ width:26px; height:26px; opacity:.6; }
+
+  /* ---------- RSVP ---------- */
+  #rsvp{
+    background:
+      linear-gradient(rgba(248,241,230,.94), rgba(248,241,230,.94)),
+      url('envelope-seal.jpg') center/cover no-repeat;
+  }
+  .rsvp-seal-btn{
+    width:96px; height:96px; border-radius:50%; margin:26px auto 0;
+    background: radial-gradient(circle at 35% 30%, #C99669, var(--rose-gold) 60%, #8F5B39 100%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(75,46,42,.35); border:none; cursor:pointer;
+    font-family:'Cinzel', serif; letter-spacing:.12em; font-size:.85rem;
+    color:#FFF6EA; transition: transform .3s ease;
+  }
+  .rsvp-seal-btn:hover{ transform: scale(1.05); }
+  .rsvp-hint{
+    margin-top:14px; font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:.85rem; color:#7A5A47;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .rsvp-hint .chev{
+    width:8px; height:8px; border-right:1px solid var(--gold); border-bottom:1px solid var(--gold);
+    transform: rotate(-135deg);
+  }
+  #rsvp-panel{
+    max-height:0; overflow:hidden; margin-top:0; width:100%;
+    transition: max-height .6s ease, margin-top .6s ease;
+  }
+  #rsvp-panel.open{ max-height:900px; margin-top:30px; }
+  .panel-card{
+    max-width:340px; margin:0 auto; background: var(--ivory);
+    border:1px solid var(--line); padding:30px 26px; text-align:left;
+    border-radius:10px;
+  }
+  .panel-card h3{
+    font-family:'Great Vibes', cursive; font-size:1.7rem; color: var(--rose-gold); font-weight:400; text-align:center;
+  }
+  .panel-card .modal-sub{
+    text-align:center; color:#7A5A47; font-style:italic; font-size:.92rem; margin:6px 0 22px;
+  }
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block; font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:.85rem; color:#7A5A47; margin-bottom:6px;
+  }
+  .field input[type="text"], .field input[type="number"]{
+    width:100%; padding:10px 12px; border:1px solid var(--line); background: var(--cream);
+    font-family:'Cormorant Garamond', serif; font-size:1rem; color: var(--deep);
+    border-radius:6px;
+  }
+  .radio-row{ display:flex; flex-direction:column; gap:8px; }
+  .radio-row label{
+  display:flex; align-items:center; gap:8px; font-size:1rem; color: var(--deep);
+  font-family:'Cormorant Garamond', serif; font-style:normal;
+  }
+  .panel-submit{
+    width:100%; padding:12px; margin-top:6px;
+    background: linear-gradient(135deg, var(--rose-gold), var(--gold));
+    color:#fff; border:none; border-radius:6px;
+    font-family:'Cinzel', serif; letter-spacing:.12em; font-size:.8rem; text-transform:uppercase;
+    cursor:pointer; transition: opacity .3s ease;
+  }
+  .panel-submit:hover{ opacity:.88; }
+  .panel-thanks{ display:none; text-align:center; }
+  .panel-thanks.show{ display:block; }
+.panel-thanks .script{ font-size:1.6rem; color: var(--rose-gold); }
+  /* ---------- MUSIC TOGGLE ---------- */
+  #music-toggle{
+    position:fixed; bottom:22px; right:22px; z-index:60;
+    width:52px; height:52px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #C99669, var(--rose-gold) 65%, #8F5B39 100%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 22px -8px rgba(75,46,42,.55);
+    cursor:pointer;
+    border:none;
+  }
+  #music-toggle svg{ width:22px; height:22px; fill:#FFF6EA; }
+  #music-toggle.playing svg{ animation:spin 3.5s linear infinite; }
+  @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .fade-up, .env-flap, .env-seal, #music-toggle.playing svg{ transition:none !important; animation:none !important; }
+  }
+
+  #petals{
+  position:absolute; inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:1;
+}
+.petal{
+  position:absolute;
+  top:-10%;
+  background:radial-gradient(circle at 30% 30%, #f6d4d9, #e7a9b6 70%);
+  border-radius:150% 0 150% 0;
+  opacity:.85;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  0%{ transform:translateY(0) rotate(0deg); opacity:.9; }
+  100%{ transform:translateY(115vh) rotate(360deg); opacity:.2; }
+}
+
+
+
+</style>
+</head>
+<body>
+
+<!-- Google Fonts (script + serif + small-caps, matching an ornate invitation look) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- ============= AUDIO ============= -->
+<audio id="bg-music" loop preload="none">
+  <!-- ADD YOUR SONG HERE: put an mp3 in this folder and update the src -->
+  <source src="Forever and Ever and Always .m4a" type="audio/mpeg">
+</audio>
+
+<button id="music-toggle" aria-label="Play music">
+  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</button>
+
+<!-- ============= ENVELOPE INTRO ============= -->
+<!-- Background image: 
+ envelope-seal.jpg (your embossed floral envelope + wax seal photo) -->
+<div id="envelope-screen">
+  <video id="envelope-video" muted playsinline>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="env-hint"><span class="pulse">Tap to open</span></div>
+</div>
+
+<!-- ============= MAIN SITE ============= -->
+<div id="site">
+
+  <!-- HERO -->
+  <section id="invite">
+    <div id="petals"></div>
+    <svg class="ornament-corner tl" viewBox="0 0 64 64"><path d="M4 4 Q4 30 30 30 M4 4 Q30 4 30 30 M10 12c4 2 6 6 6 10" stroke="#F1DFC8" stroke-width="1.4" fill="none"/><circle cx="12" cy="10" r="2" fill="#F1DFC8"/></svg>
+    <svg class="ornament-corner tr" viewBox="0 0 64 64"><path d="M4 4 Q4 30 30 30 M4 4 Q30 4 30 30 M10 12c4 2 6 6 6 10" stroke="#F1DFC8" stroke-width="1.4" fill="none"/><circle cx="12" cy="10" r="2" fill="#F1DFC8"/></svg>
+
+    <div class="arch-frame fade-up">
+      <div class="label">Engagement Day</div>
+      <div class="invite-date">23 · 08 · 26</div>
+
+      <div class="invite-names script">Angela</div>
+      <div class="invite-amp script">&amp;</div>
+      <div class="invite-names script">Shadi</div>
+
+      <div class="invite-sub">Villat next to Theatre of Dar Al Tarbiye</div>
+    </div>
+  </section>
+
+
+  <!-- BLESSING / CONNECTOR -->
+<section id="countdown">
+      <img src="peonies-bouquet.png" class="rose-corner left" alt="">
+      <img src="peonies-bouquet.png" class="rose-corner right" alt="">
+      <div class="fade-up blessing-block" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+      <div class="blessing-line script">One destiny</div>
+      <div class="blessing-sub">A lifetime written by God</div>
+      <div class="blessing-divider"></div>
+      <div class="blessing-text">
+        Dear Friends and Family,<br>
+        Join us for an evening of love,<br>
+        laughter, duas, and unforgettable<br>
+        memories as we begin our forever.
+      </div>
+    </div>
+
+    <div class="fade-up" style="width:100%">
+      <div class="countdown-title">The Celebration Begins In</div>
+      <div class="countdown-grid" id="countdown-grid">
+        <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-lab">Days</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-lab">Hours</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-lab">Min</span></div>
+        <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-lab">Sec</span></div>
+      </div>
+      <div class="event-date-line">Sunday, 23rd August 2026</div>
+
+      <img src="swans-pair.png" class="swans-under-countdown" alt="Angela and Shadi swans">
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="location">
+    <div class="fade-up" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+      <div class="label">Location</div>
+      <div class="venue-name script" style="font-size:2.1rem;">Villat Street</div>
+      <div class="venue-address">beside Dar Al-Tarbiye Theater</div>
+
+      <div class="map-frame">
+        <!-- ADD MAP EMBED HERE: replace this placeholder with an
+             <iframe src="YOUR_GOOGLE_MAPS_EMBED_LINK" ...></iframe>
+             from Google Maps → Share → Embed a map -->
+        <div class="map-fallback">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3218.8056031043907!2d37.1587711!3d36.2199197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152ff851c54af8e9%3A0x1a01854005daa8c4!2sAsdvadzadzin%20Church%20(Armenian%20Orthodox)!5e0!3m2!1sen!2s!4v1786996179670!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#7A5A47" stroke-width="1.4"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+          Map preview goes here
+        </div>
+      </div>
+
+      <a class="directions-btn" href="https://maps.app.goo.gl/XnHous6r6XDBHfVo7?g_st=aw" id="directions-link" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="fade-up" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+      <div class="label">Our Story</div>
+      <div class="venue-name script" style="font-size:2.1rem;">A Few Moments</div>
+
+      <div class="gallery-grid">
+        <div class="g-item"><img src="photo1.jpg" alt="Angela and Shadi"></div>
+        <div class="g-item"><img src="photo2.jpg" alt="Angela and Shadi"></div>
+        <div class="g-item"><img src="photo3.jpg" alt="Angela and Shadi"></div>
+        <div class="g-item"><img src="photo4.jpg" alt="Angela and Shadi"></div>
+        <div class="g-item"><img src="photo5.jpg" alt="Angela and Shadi"></div>
+        <div class="g-item"><img src="photo6.jpg" alt="Angela and Shadi"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <!-- RSVP -->
+<section id="rsvp">
+  <div class="fade-up" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+    <div class="label">Confirm Your Attendance</div>
+    <div class="venue-name script" style="font-size:2.1rem;">We Hope to See You</div>
+    <p style="max-width:320px; color:#7A5A47; margin-top:10px;">To help us prepare for a joyful celebration, kindly confirm your attendance.</p>
+
+    <button class="rsvp-seal-btn" id="open-rsvp">RSVP</button>
+    <p class="rsvp-hint" id="rsvp-hint">Click to open<span class="chev"></span></p>
+
+    <div id="rsvp-panel">
+      <div class="panel-card">
+        <div id="rsvp-form-wrap">
+          <h3>Confirm Your Attendance</h3>
+          <p class="modal-sub">Please RSVP before 10th August 2026</p>
+          <form id="rsvp-form" action="https://formspree.io/f/mnpagvgv" method="post">
+            <div class="field">
+              <label for="rsvp-name">Your name</label>
+              <input type="text" id="rsvp-name" name="name" required>
+            </div>
+            <div class="field">
+              <label>Will you be attending?</label>
+              <div class="radio-row">
+                <label><input type="radio" name="attending" value="yes" checked> Joyfully accepts</label>
+                <label><input type="radio" name="attending" value="no"> Regretfully declines</label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="rsvp-guests">Number of guests</label>
+              <input type="number" id="rsvp-guests" name="guests" min="0" value="1">
+            </div>
+            <button type="submit" class="panel-submit">Send RSVP</button>
+          </form>
+        </div>
+        <div class="panel-thanks" id="rsvp-thanks">
+          <p class="script">Thank you</p>
+          <p class="modal-sub">Your response has been noted. We can't wait to celebrate with you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <footer>Angela &amp; Shadi</footer>
+</div>
+
+<script>
+  const envelopeScreen = document.getElementById('envelope-screen');
+  const site = document.getElementById('site');
+  const music = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+
+  
+  // ---------- Envelope open interaction ----------
+  const envelopeVideo = document.getElementById('envelope-video');
+const envelopeHint = document.querySelector('#envelope-screen .env-hint');
+
+function openEnvelope(){
+  if (envelopeScreen.classList.contains('open')) return;
+  envelopeScreen.classList.add('open');
+  setTimeout(() => {
+    envelopeScreen.classList.add('hidden');
+    site.classList.add('revealed');
+    document.body.style.overflow = 'auto';
+  }, 1000);
+
+  music.play().then(() => {
+    musicToggle.classList.add('playing');
+  }).catch(() => { /* autoplay blocked, user can tap the music button */ });
+}
+
+envelopeScreen.addEventListener('click', () => {
+  if (envelopeVideo.paused){
+    envelopeVideo.play();
+    envelopeHint.style.display = 'none';
+  }
+});
+let openTriggered = false;
+envelopeVideo.addEventListener('timeupdate', () => {
+  const secondsBeforeEnd = 1; // غيّري هالرقم حسب قد ما بدك الصفحة تطلع قبل النهاية
+  if (!openTriggered && envelopeVideo.duration &&
+      envelopeVideo.currentTime >= envelopeVideo.duration - secondsBeforeEnd) {
+    openTriggered = true;
+    openEnvelope();
+  }
+});
+
+  // ---------- Music toggle ----------
+  musicToggle.addEventListener('click', () => {
+    if (music.paused) {
+      music.play().then(() => musicToggle.classList.add('playing')).catch(()=>{});
+    } else {
+      music.pause();
+      musicToggle.classList.remove('playing');
+    }
+  });
+
+  // ---------- Countdown ----------
+  const target = new Date('2026-08-23T20:00:00');
+  function updateCountdown(){
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ---------- Directions link ----------
+  // Update this query if the venue's exact map name/coordinates differ.
+  document.getElementById('directions-link').href =
+    'https://maps.app.goo.gl/XnHous6r6XDBHfVo7?g_st=aw' + encodeURIComponent('Dar Al Tarbiye Theatre Villa');
+
+  // ---------- Scroll reveal ----------
+  const revealEls = document.querySelectorAll('.fade-up');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.2 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ---------- RSVP (front-end only placeholder) ----------
+  const rsvpPanel = document.getElementById('rsvp-panel');
+const rsvpHint = document.getElementById('rsvp-hint');
+document.getElementById('open-rsvp').addEventListener('click', () => {
+  rsvpPanel.classList.toggle('open');
+  rsvpHint.style.display = rsvpPanel.classList.contains('open') ? 'none' : 'flex';
+  if (rsvpPanel.classList.contains('open')) rsvpPanel.scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      document.getElementById('rsvp-form-wrap').style.display = 'none';
+      document.getElementById('rsvp-thanks').classList.add('show');
+    } else {
+      alert('صار في مشكلة، حاولي مرة تانية.');
+    }
+  } catch (error) {
+    alert('تأكدي من الإنترنت وحاولي مرة تانية.');
+  }
+});
+
+  const petalsBox = document.getElementById('petals');
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('span');
+  p.className = 'petal';
+  const size = 6 + Math.random() * 8;
+  p.style.width = size + 'px';
+  p.style.height = size + 'px';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (6 + Math.random() * 6) + 's';
+  p.style.animationDelay = (Math.random() * 10) + 's';
+  petalsBox.appendChild(p);
+}
+</script>
+
+</body>
+</html>
